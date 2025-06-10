@@ -1,28 +1,12 @@
 "use client";
-import { Delete, Edit } from "@mui/icons-material";
-import {
-  Button,
-  Container,
-  Grid,
-  IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import { pink } from "@mui/material/colors";
+import { Button, Container, Grid, Paper } from "@mui/material";
 import { useEffect, useState } from "react";
 import DialogCustom from "../ui/DialogCustom";
 import CreateUserForm from "../components/form/CreateUserForm";
+import TableCustom from "../ui/TableCustom";
+import { ApiData, FormData } from "@/types";
+import { column } from "@/mock";
 
-interface ApiData {
-  id: string;
-  email: string;
-  password: string;
-}
 const Home = () => {
   const [api, setApi] = useState<ApiData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -47,54 +31,34 @@ const Home = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Form submitted");
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev: FormData) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
-
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+  
   return (
     <Container maxWidth="lg" sx={{ marginTop: 5 }}>
       <Grid container spacing={2} padding={5} component={Paper} elevation={3}>
         <Button variant="contained" onClick={() => setOpen(true)}>
           User create
         </Button>
-        <TableContainer>
-          <Table>
-            <TableHead sx={{ backgroundColor: pink[500] }}>
-              <TableRow>
-                <TableCell align="center">Id</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Password</TableCell>
-                <TableCell align="center">Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {api.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={4} align="center">
-                    {loading ? "Loading..." : "No data available"}
-                  </TableCell>
-                </TableRow>
-              ) : (
-                api.slice(0, 10).map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell align="center">{item.id}</TableCell>
-                    <TableCell align="center">{item.email}</TableCell>
-                    <TableCell align="center">{item.password}</TableCell>
-                    <TableCell align="center">
-                      <IconButton color="primary" aria-label="edit">
-                        <Edit />
-                      </IconButton>
-                      <IconButton color="secondary" aria-label="delete">
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <TableCustom
+          columns={column}
+          rows={api}
+          actions={["edit", "delete"]}
+          loading={loading}
+        />
       </Grid>
       {open && (
         <DialogCustom
@@ -104,7 +68,11 @@ const Home = () => {
           width="sm"
           handleSubmit={handleSubmit}
         >
-          <CreateUserForm formId="create-user-form" />
+          <CreateUserForm
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            formData={formData}
+          />
         </DialogCustom>
       )}
     </Container>

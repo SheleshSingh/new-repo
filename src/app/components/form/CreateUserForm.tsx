@@ -1,35 +1,30 @@
 import InputCustom from "@/app/ui/InputCustom";
+import { FormData } from "@/types";
 import { Container, Grid } from "@mui/material";
-import { useState } from "react";
-
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
+interface FormProps{
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  formData: FormData
 }
-interface CreateUserFormProps {
-  formId: string;
-}
-
-const CreateUserForm = ({ formId }: CreateUserFormProps) => {
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    password: "",
-  });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev: FormData) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+const CreateUserForm = ({handleChange,handleSubmit ,formData}:FormProps ) => {
+  // const [formData, setFormData] = useState<FormData>({
+  //   name: "",
+  //   email: "",
+  //   password: "",
+  // });
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData((prev: FormData) => ({
+  //     ...prev,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   console.log(formData);
+  // };
   return (
     <Container sx={{ marginTop: 5 }}>
-      <form onSubmit={handleSubmit} id={formId}>
+      <form onSubmit={handleSubmit}>
         <Grid container alignItems="center" direction="column" spacing={2}>
           <Grid size={{ xs: 12, md: 12 }}>
             <InputCustom

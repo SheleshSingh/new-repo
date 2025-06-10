@@ -1,3 +1,4 @@
+import { DialogCustomProps } from "@/types";
 import {
   Button,
   Dialog,
@@ -5,18 +6,6 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-
-interface DialogCustomProps {
-  title?: string;
-  children: React.ReactNode;
-  onClose: () => void;
-  open: boolean;
-  width?: "xs" | "sm" | "md" | "lg" | "xl";
-  onSubmit?: () => void;
-  showSubmitButton?: boolean;
-  showCancelButton?: boolean;
-  handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
-}
 
 const DialogCustom = ({
   children,
@@ -38,11 +27,7 @@ const DialogCustom = ({
           {children}
           <DialogActions>
             {showCancelButton && <Button onClick={onClose}>Cancel</Button>}
-            {showSubmitButton && (
-              <Button type="submit">
-                Save
-              </Button>
-            )}
+            {showSubmitButton && <Button type="submit">Save</Button>}
           </DialogActions>
         </form>
       </DialogContent>

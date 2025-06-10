@@ -1,3 +1,4 @@
+import { Column, TableProps } from "@/types";
 import {
   Table,
   TableBody,
@@ -7,30 +8,41 @@ import {
   TableRow,
 } from "@mui/material";
 
-interface TableProps {
-  columns: string[];
-  rows: string[][];
-  actions: string[];
-}
-const TableCustom = ({ columns = [], rows = [], actions = [] }: TableProps) => {
+
+
+
+const TableCustom = ({
+  columns = [],
+  rows = [],
+  actions = [],
+  loading,
+}: TableProps) => {
   return (
     <TableContainer>
       <Table>
         <TableHead>
           {columns.map((column, index) => (
             <TableRow key={index}>
-              <TableCell>{column}</TableCell>
+              <TableCell>{column.label}</TableCell>
             </TableRow>
           ))}
         </TableHead>
         <TableBody>
-          {rows.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {row.map((cell, index) => (
-                <TableCell key={index}>{cell}</TableCell>
-              ))}
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={columns.length} align="center">
+                Loading...
+              </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            rows.map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {columns.map((column: Column, index: number) => (
+                  <TableCell key={index}>{row[column.id]}</TableCell>
+                ))}
+              </TableRow>
+            ))
+          )}
         </TableBody>
         {actions.map((action, index) => (
           <TableRow key={index}>

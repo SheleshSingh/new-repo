@@ -1,15 +1,5 @@
+import { InputCustomProps } from "@/types";
 import { TextField } from "@mui/material";
-import React from "react";
-
-interface InputCustomProps {
-  label: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  size?: "small" | "medium";
-  variant?: "outlined" | "filled" | "standard";
-  fullWidth?: boolean;
-}
 
 const InputCustom = ({
   label,
