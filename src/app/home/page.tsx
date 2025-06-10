@@ -54,7 +54,12 @@ const Home = () => {
         <Button variant="contained" onClick={() => setOpen(true)}>
           User create
         </Button>
-        <TableCustom columns={column} rows={api} actions={actions} />
+        <TableCustom
+          columns={column}
+          rows={api}
+          actions={actions}
+          pageCount={10}
+        />
       </Grid>
 
       {open && (
@@ -68,12 +73,6 @@ const Home = () => {
           <CreateUserForm formId="create-user-form" />
         </DialogCustom>
       )}
-      <TableCustom
-        columns={column}
-        rows={api}
-        actions={actions}
-        pageCount={10}
-      />
     </Container>
   );
 };
