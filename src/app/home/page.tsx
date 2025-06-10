@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import DialogCustom from "../ui/DialogCustom";
 import CreateUserForm from "../components/form/CreateUserForm";
 import TableCustom from "../ui/TableCustom";
-import { ApiData, FormData } from "@/types";
+import { ApiData } from "@/types";
 import { column } from "@/mock";
+import { Delete, Edit } from "@mui/icons-material";
+import InfoIcon from "@mui/icons-material/Info";
 
 const Home = () => {
   const [api, setApi] = useState<ApiData[]>([]);
@@ -31,52 +33,48 @@ const Home = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    password: "",
-  });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev: FormData) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData);
-  };
-  
+  const actions = [
+    {
+      icon: <Edit />,
+      onClick: (row: ApiData) => console.log("hello edit", row.id),
+    },
+    {
+      icon: <Delete />,
+      onClick: (row: ApiData) => console.log(row.id, "hello delete"),
+    },
+    {
+      icon: <InfoIcon />,
+      onClick: (row: ApiData) => console.log(row.id, "hello info"),
+    },
+  ];
+  if (loading) return <div>Loading...</div>;
   return (
     <Container maxWidth="lg" sx={{ marginTop: 5 }}>
       <Grid container spacing={2} padding={5} component={Paper} elevation={3}>
         <Button variant="contained" onClick={() => setOpen(true)}>
           User create
         </Button>
-        <TableCustom
-          columns={column}
-          rows={api}
-          actions={["edit", "delete"]}
-          loading={loading}
-        />
+        <TableCustom columns={column} rows={api} actions={actions} />
       </Grid>
+
       {open && (
         <DialogCustom
           title="Create User"
           open={open}
           onClose={handleClose}
           width="sm"
-          handleSubmit={handleSubmit}
+          formId="create-user-form"
         >
-          <CreateUserForm
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            formData={formData}
-          />
+          <CreateUserForm formId="create-user-form" />
         </DialogCustom>
       )}
+      <TableCustom
+        columns={column}
+        rows={api}
+        actions={actions}
+        pageCount={10}
+      />
     </Container>
   );
 };
-
 export default Home;

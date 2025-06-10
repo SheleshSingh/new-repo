@@ -13,9 +13,9 @@ const DialogCustom = ({
   open,
   title,
   width = "sm",
-  handleSubmit,
   showSubmitButton = true,
   showCancelButton = true,
+  formId,
 }: DialogCustomProps) => {
   return (
     <Dialog maxWidth={width} fullWidth open={open} onClose={onClose}>
@@ -23,13 +23,15 @@ const DialogCustom = ({
         {title || "Default Title"}
       </DialogTitle>
       <DialogContent>
-        <form onSubmit={handleSubmit}>
-          {children}
-          <DialogActions>
-            {showCancelButton && <Button onClick={onClose}>Cancel</Button>}
-            {showSubmitButton && <Button type="submit">Save</Button>}
-          </DialogActions>
-        </form>
+        {children}
+        <DialogActions>
+          {showCancelButton && <Button onClick={onClose}>Cancel</Button>}
+          {showSubmitButton && (
+            <Button type="submit" form={formId}>
+              Save
+            </Button>
+          )}
+        </DialogActions>
       </DialogContent>
     </Dialog>
   );

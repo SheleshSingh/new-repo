@@ -8,12 +8,12 @@ export interface ApiData {
 export interface TableProps {
   columns: Column[];
   rows: { [key: string]: string | number }[];
-  actions?: string[];
-  loading?: boolean;
+  actions?: { icon: React.ReactNode; onClick: (row: ApiData) => void }[];
+  pageCount?: number;
 }
 export interface Column {
-  id: string;
-  label: string;
+  field: string;
+  headerName: string;
 }
 
 export interface InputCustomProps {
@@ -35,6 +35,7 @@ export interface DialogCustomProps {
   showSubmitButton?: boolean;
   showCancelButton?: boolean;
   handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
+  formId?: string;
 }
 export interface FormData {
   name: string;

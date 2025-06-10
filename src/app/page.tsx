@@ -10,8 +10,6 @@ const Page = () => {
           User create
         </Button>
       </Link>
-
-      {/* </div> */}
     </>
   );
 };

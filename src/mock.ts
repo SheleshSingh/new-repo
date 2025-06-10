@@ -1,5 +1,6 @@
 export const column = [
-  { id: "id", label: "Id" },
-  { id: "email", label: "Email" },
-  { id: "password", label: "Password" },
+  { field: "id", headerName: "Id" },
+  { field: "email", headerName: "Email" },
+  { field: "password", headerName: "Password" },
+  { field: "actions", headerName: "Actions" },
 ];
