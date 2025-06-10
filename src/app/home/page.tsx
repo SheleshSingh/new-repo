@@ -50,10 +50,17 @@ const Home = () => {
   if (loading) return <div>Loading...</div>;
   return (
     <Container maxWidth="lg" sx={{ marginTop: 5 }}>
-      <Grid container spacing={2} padding={5} component={Paper} elevation={3}>
-        <Button variant="contained" onClick={() => setOpen(true)}>
-          User create
-        </Button>
+      <Button variant="contained" onClick={() => setOpen(true)}>
+        User create
+      </Button>
+      <Grid
+        container
+        spacing={2}
+        padding={5}
+        component={Paper}
+        elevation={3}
+        mt={2}
+      >
         <TableCustom
           columns={column}
           rows={api}

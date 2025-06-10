@@ -1,6 +1,7 @@
 import { ApiData, Column, TableProps } from "@/types";
 import {
   IconButton,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -32,54 +33,56 @@ const TableCustom = ({
   );
   return (
     <>
-      <TableContainer>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              {columns.map((column: Column, index: number) => (
-                <TableCell key={index}>{column.headerName}</TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedRows.length === 0 ? (
+      <Paper sx={{ width: "100%", overflow: "hidden" }}>
+        <TableContainer sx={{ maxHeight: 510 }}>
+          <Table size="small">
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={columns.length} align="center">
-                  No data available
-                </TableCell>
+                {columns.map((column: Column, index: number) => (
+                  <TableCell key={index}>{column.headerName}</TableCell>
+                ))}
               </TableRow>
-            ) : (
-              rows.length > 0 &&
-              (rows as ApiData[]).map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
-                  {columns.map((column: Column, index: number) => (
-                    <TableCell key={index}>{row[column.field]}</TableCell>
-                  ))}
-                  {actions.map((action, index) => (
-                    <TableCell key={index}>
-                      <IconButton
-                        size="small"
-                        onClick={() => action.onClick(row)}
-                      >
-                        {action.icon}
-                      </IconButton>
-                    </TableCell>
-                  ))}
+            </TableHead>
+            <TableBody>
+              {paginatedRows.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={columns.length} align="center">
+                    No data available
+                  </TableCell>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        count={rows.length}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-      />
+              ) : (
+                rows.length > 0 &&
+                (rows as ApiData[]).map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {columns.map((column: Column, index: number) => (
+                      <TableCell key={index}>{row[column.field]}</TableCell>
+                    ))}
+                    {actions.map((action, index) => (
+                      <TableCell key={index}>
+                        <IconButton
+                          size="small"
+                          onClick={() => action.onClick(row)}
+                        >
+                          {action.icon}
+                        </IconButton>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          count={rows.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+        />
+      </Paper>
     </>
   );
 };
